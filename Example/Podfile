@@ -1,0 +1,6 @@
+use_frameworks!
+target 'BlindDate_Tests' do
+  pod 'BlindDate', :path => '../'
+  
+  
+end
