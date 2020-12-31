@@ -4,14 +4,26 @@
 
 import Foundation
 
-extension Date {
+public extension Array {
+    var neighbors: Zip2Sequence<Array<Element>.SubSequence, Array<Element>.SubSequence> {
+        zip(self.dropLast(), self.dropFirst())
+    }
+}
+
+public extension Array where Element: AdditiveArithmetic {
+    var deltas: [Element] {
+        neighbors.map { $1 - $0 }
+    }
+}
+
+public extension Date {
     static var secondsInAMinute: Double { 60 }
 
     static var secondsInAnHour: Double { secondsInAMinute * 60 }
 
     static var secondsInADay: Double { secondsInAnHour * 24 }
 
-    public static var now: Date { Date() }
+    static var now: Date { Date() }
 }
 
 public extension Array where Element == Date {
@@ -62,21 +74,22 @@ public extension Date {
 
 }
 
-extension Date {
-    public func subtracting(seconds: TimeInterval) -> Date {
+public extension Date {
+    func subtracting(seconds: TimeInterval) -> Date {
         self.addingTimeInterval(-seconds)
     }
 
-    public func adding(seconds: TimeInterval) -> Date {
+    func adding(seconds: TimeInterval) -> Date {
         self.addingTimeInterval(seconds)
     }
 
-    public func seconds(from date: Date) -> TimeInterval {
+    @available(iOS 13, *)
+    func seconds(from date: Date) -> TimeInterval {
         return self.distance(to: date)
     }
 }
 
-extension Date {
+public extension Date {
 
     enum FormatComponents: String {
         // YEAR
@@ -142,7 +155,7 @@ extension Date {
     }
 }
 
-extension DateComponents {
+public extension DateComponents {
     func toTimeString(wantsAMPM: Bool=Date.LocaleWantsAMPM) -> String {
 
         let date = Calendar.current.date(bySettingHour: self.hour ?? 0, minute: self.minute ?? 0, second: 0, of: Date())!
@@ -158,7 +171,7 @@ extension DateComponents {
     }
 }
 
-extension TimeInterval {
+public extension TimeInterval {
 
     func stringDaysFromTimeInterval() -> String {
 
@@ -172,7 +185,8 @@ extension TimeInterval {
     }
 }
 
-extension Array {
+public extension Array {
+    @available(iOS 13, *)
     func closest(to date: Date, withinBefore: TimeInterval, withinAfter: TimeInterval, dateProvider: (Element) -> Date) -> Element? {
         let interval = DateInterval(start: date.subtracting(seconds: withinBefore), duration: withinBefore + withinAfter)
         let valuesInInterval = elements(within: interval, dateProvider: dateProvider)
@@ -196,7 +210,8 @@ extension Array {
     }
 }
 
-extension Array where Element == Date {
+public extension Array where Element == Date {
+    @available(iOS 13, *)
     func closest(to date: Date, withinBefore: TimeInterval, withinAfter: TimeInterval) -> Element? {
         let interval = DateInterval(start: date.subtracting(seconds: withinBefore), duration: withinBefore + withinAfter)
         let valuesInInterval = self[interval]
@@ -224,7 +239,7 @@ extension Array where Element == Date {
     }
 }
 
-extension DateComponents {
+public extension DateComponents {
     func year(_ year: Int) -> Self {
         var component = self
         component.year = year
@@ -285,7 +300,7 @@ extension DateComponents {
 
 }
 
-extension Date {
+public extension Date {
     func values(spacedApartBy distance: TimeInterval, totalNumber: Int) -> [Date] {
         var values: [Date] = [self]
         var last = self
