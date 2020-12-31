@@ -1,0 +1,16 @@
+PODS:
+  - BlindDate (0.1.0)
+
+DEPENDENCIES:
+  - BlindDate (from `../`)
+
+EXTERNAL SOURCES:
+  BlindDate:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  BlindDate: a64a506a31a87ddb2c34fd30968d61abc5771c24
+
+PODFILE CHECKSUM: c5a4f90a30f01cef78aee1fba997a72ceeef6cf1
+
+COCOAPODS: 1.10.0

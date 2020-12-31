@@ -1,0 +1,6 @@
+framework module BlindDate {
+  umbrella header "BlindDate-umbrella.h"
+
+  export *
+  module * { export * }
+}
